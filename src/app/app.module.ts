@@ -11,26 +11,19 @@ import { ListCoursesComponent } from './modules/course/list-courses/list-courses
 import { ListStudentsComponent } from './modules/student/list-students/list-students.component';
 import { ListStudentCoursesComponent } from './modules/student/list-student-courses/list-student-courses.component';
 import { ListStudentsPerCourseComponent } from './modules/student/list-students-per-course/list-students-per-course.component';
+import { HomeComponent } from './modules/home/home.component';
 
 const routes: Routes = [
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'addCourse',
-    component: AddCourseComponent
-  },
-  {
-    path: '**',
-    redirectTo: '/login',
-    pathMatch: "full"
-  },
-  {
-    path: '',
-    redirectTo: '/login',
-    pathMatch: "full"
-  }
+  {path: 'login', component: LoginComponent},
+  {path: 'addCourse', component: AddCourseComponent},
+  {path: 'listCourses', component: ListCoursesComponent},
+  {path: 'dropCourse', component: DropCourseComponent},
+  {path: 'listStudentCourses', component: ListStudentCoursesComponent},
+  {path: 'updateCourse', component: UpdateCourseComponent},
+  {path: 'listStudentsPerCourse', component: ListStudentsPerCourseComponent}, 
+  {path: 'listStudents', component: ListStudentsComponent},
+  {path: '**', redirectTo: '/login', pathMatch: "full"},
+  {path: '', redirectTo: '/login', pathMatch: "full"}
 ];
 
 @NgModule({
@@ -43,7 +36,8 @@ const routes: Routes = [
     ListCoursesComponent,
     ListStudentsComponent,
     ListStudentCoursesComponent,
-    ListStudentsPerCourseComponent
+    ListStudentsPerCourseComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule, RouterModule.forRoot(routes)
