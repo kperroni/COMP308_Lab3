@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include partials/head %>
+</head>
+<body class="container">
+
+<header>
+    <% include partials/header %>
+</header>
+
+<main class="container center">
+    <section class="wrapper">
+    <form action="/tasks" method="post">
+        <div>
+            <label>Task ID:</label>
+            <input type="text" name="taskId" value="<%= task.taskId ? task.taskId : '' %>" />
+        </div>
+        <div>
+            <label>Task Name:</label>
+            <input type="text" name="taskName" value="<%= task.taskName ? task.taskName : '' %>" />
+        </div>
+        <div>
+            <label>Task Description:</label>
+            <input type="text" name="taskDescription"  value="<%= task.taskDescription ? task.taskDescription : '' %>" />
+        </div>
+        <div>
+            <label>Start Date:</label>
+            <input type="text" name="startDate"  value="<%= task.startDate ? task.startDate : '' %>" />
+        </div>
+        <div>        
+            <label>End Date:</label>
+            <input type="text" name="endDate"  value="<%= task.endDate ? task.endDate : '' %>" />
+        </div>
+        <div>
+            <label>Owner:</label>
+            <input type="text" name="owner"  value="<%= task.owner ? task.owner : '' %>" />
+        </div>
+            <div>
+            <input type="submit" value="Create/Save Task" />
+        </div>
+    </form>
+            
+    </section>   
+</main>
+
+<footer>
+    <% include partials/footer %>
+</footer>
+
+</body>
+</html>

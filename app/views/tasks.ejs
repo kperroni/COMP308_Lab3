@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include partials/head %>
+</head>
+
+<body class="container col-sm-12">
+
+    <header>
+        <% include partials/header %>
+    </header>
+
+    <form method="post">
+        <div class="table-responsive">            
+            <table class=" table-bordered table-hover table">
+                <thead>
+                    <tr>
+                        <th>
+    
+                            <label>Task ID:</label>
+    
+    
+    
+    
+                        </th>
+                        <th>
+    
+    
+                            <label>Task Name:</label>
+    
+    
+    
+                        </th>
+                        <th>
+    
+    
+                            <label>Task Description:</label>
+    
+    
+                        </th>
+                        <th>
+    
+    
+                            <label>Start Date:</label>
+    
+    
+    
+                        </th>
+                        <th>
+    
+    
+                            <label>End date </label>
+    
+    
+    
+    
+                        </th>
+                        <th>
+    
+    
+                            <label>Owner </label>
+    
+    
+    
+    
+                        </th>
+                        </th>
+    
+                </thead>
+                <tbody>
+                    <% tasks.forEach(function(task){ %>
+    
+                        <tr>
+                            <td>
+    
+    
+                                <input class="form-control" type="text" name="taskId" value="<%= task.taskId %>" />
+    
+    
+    
+                            </td>
+                            <td>
+    
+    
+    
+                                <input class="form-control" type="text" name="taskName" value="<%= task.taskName %>" />
+    
+    
+    
+                            </td>
+                            <td>
+    
+    
+    
+                                <input class="form-control" type="text" name="taskDescription" value="<%= task.taskDescription %>" />
+    
+    
+                            </td>
+                            <td>
+    
+    
+                                    
+                                <input class="form-control" type="text" name="startDate" value="<%= moment(task.startDate).format( 'MMM-DD-YYYY') %>" />
+    
+    
+    
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" name="endDate" value="<%= moment(task.endDate).format( 'MMM-DD-YYYY') %>" />
+    
+                            </td>
+    
+                            <td>
+    
+    
+    
+                                <input class="form-control" type="text" name="owner" value="<%= task.owner %>" />
+    
+    
+    
+                            </td>
+    
+                            <td>
+    
+    
+    
+    
+                                <input class="form-control btn btn-primary" type="submit" formaction="/edit_task/<%=task.taskId%>" value="Update" />
+                            </td>
+                            <td>
+                                <input class="form-control btn btn-danger" type="submit" formaction="/delete/<%=task.taskId%>" value="Delete" />
+    
+                            </td>
+                        </tr>
+    
+    
+    
+                        <% })%>
+                </tbody>
+            </table>
+        </div>
+
+
+    </form>
+
+
+    <footer>
+        <% include partials/footer %>
+    </footer>
+
+</body>
+
+</html>
