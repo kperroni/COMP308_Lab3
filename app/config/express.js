@@ -48,11 +48,9 @@ module.exports = function () {
     app.use(passport.session());
 
     // Configure static file serving
-    app.use('/', express.static(path.resolve('./public')));
+    //app.use('/', express.static(path.resolve('./public')));
+    app.use(express.static(path.join(__dirname, '../../' ,'dist')));
     app.use('/lib', express.static(path.resolve('./node_modules')));
-
-    // Load the routing files	    
-    require('../routes/index.server.routes.js')(app);
 
     // Load the routing files
     var studentRouter = require('../routes/student.server.routes');
@@ -63,6 +61,8 @@ module.exports = function () {
 
     var authRouter = require('../routes/auth.server.routes');
     app.use('/api/auth', authRouter);
+  
+    require('../routes/ng.server.routes.js')(app);
 
     // Return the Express application instance
     return app;

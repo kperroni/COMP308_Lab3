@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router'
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './modules/login/login.component';
@@ -12,6 +14,7 @@ import { ListStudentsComponent } from './modules/student/list-students/list-stud
 import { ListStudentCoursesComponent } from './modules/student/list-student-courses/list-student-courses.component';
 import { ListStudentsPerCourseComponent } from './modules/student/list-students-per-course/list-students-per-course.component';
 import { HomeComponent } from './modules/home/home.component';
+import { LoginService } from './modules/login/login.service';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -40,9 +43,9 @@ const routes: Routes = [
     HomeComponent
   ],
   imports: [
-    BrowserModule, RouterModule.forRoot(routes)
+    BrowserModule, RouterModule.forRoot(routes), FormsModule, HttpClientModule
   ],
-  providers: [],
+  providers: [LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
