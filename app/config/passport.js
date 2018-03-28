@@ -1,19 +1,29 @@
+﻿// Load the module dependencies
 const passport = require('passport');
 const mongoose = require('mongoose');
 
-module.exports = function() {
+// Define the Passport configuration method
+module.exports = function () {
+    // Load the 'User' model
     const Student = mongoose.model('Student');
-    
-    passport.serializeUser(function(student, done) { 
-        done(null, student.id );
+
+    // Use Passport's 'serializeUser' method to serialize the user id
+    passport.serializeUser((user, done) => {
+        done(null, user.id);
     });
-    
-    passport.deserializeUser(function(id, done){
-        Student.findOne({_id:id},'-passoword -salt', function(err, done){
-            done(err, student);
+
+    // Use Passport's 'deserializeUser' method to load the user document
+    passport.deserializeUser((id, done) => {
+        Student.findOne({
+            _id: id
+        }, '-password -salt', (err, user) => {
+            done(err, user);
         });
     });
 
-    require('./strategies/local')();
-
-}
+    // Load Passport's strategies configuration files
+    require('./strategies/local.js')();
+    require('./strategies/twitter.js')();
+    require('./strategies/facebook.js')();
+    require('./strategies/google.js')();
+};

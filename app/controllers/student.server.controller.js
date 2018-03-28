@@ -1,10 +1,7 @@
-var studentModel = require('../models/student.server.model');
+﻿// Load the module dependencies
+const Student = require('mongoose').model('Student');
+const passport = require('passport');
 
-/**
- * studentController.js
- *
- * @description :: Server-side logic for managing students.
- */
 module.exports = {
 
     /**
@@ -27,7 +24,7 @@ module.exports = {
      */
     show: function (req, res) {
         var id = req.params.id;
-        studentModel.findOne({_id: id}, function (err, student) {
+        studentModel.findOne({ _id: id }, function (err, student) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting student.',
@@ -48,15 +45,15 @@ module.exports = {
      */
     create: function (req, res) {
         var student = new studentModel({
-			studentNumber : req.body.studentNumber,
-			password : req.body.password,
-			firstName : req.body.firstName,
-			lastName : req.body.lastName,
-			address : req.body.address,
-			city : req.body.city,
-			phoneNumber : req.body.phoneNumber,
-			email : req.body.email,
-			semester : req.body.semester
+            studentNumber: req.body.studentNumber,
+            password: req.body.password,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            address: req.body.address,
+            city: req.body.city,
+            phoneNumber: req.body.phoneNumber,
+            email: req.body.email,
+            semester: req.body.semester
 
         });
 
@@ -76,7 +73,7 @@ module.exports = {
      */
     update: function (req, res) {
         var id = req.params.id;
-        studentModel.findOne({_id: id}, function (err, student) {
+        studentModel.findOne({ _id: id }, function (err, student) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting student',
@@ -90,15 +87,15 @@ module.exports = {
             }
 
             student.studentNumber = req.body.studentNumber ? req.body.studentNumber : student.studentNumber;
-			student.password = req.body.password ? req.body.password : student.password;
-			student.firstName = req.body.firstName ? req.body.firstName : student.firstName;
-			student.lastName = req.body.lastName ? req.body.lastName : student.lastName;
-			student.address = req.body.address ? req.body.address : student.address;
-			student.city = req.body.city ? req.body.city : student.city;
-			student.phoneNumber = req.body.phoneNumber ? req.body.phoneNumber : student.phoneNumber;
-			student.email = req.body.email ? req.body.email : student.email;
-			student.semester = req.body.semester ? req.body.semester : student.semester;
-			
+            student.password = req.body.password ? req.body.password : student.password;
+            student.firstName = req.body.firstName ? req.body.firstName : student.firstName;
+            student.lastName = req.body.lastName ? req.body.lastName : student.lastName;
+            student.address = req.body.address ? req.body.address : student.address;
+            student.city = req.body.city ? req.body.city : student.city;
+            student.phoneNumber = req.body.phoneNumber ? req.body.phoneNumber : student.phoneNumber;
+            student.email = req.body.email ? req.body.email : student.email;
+            student.semester = req.body.semester ? req.body.semester : student.semester;
+
             student.save(function (err, student) {
                 if (err) {
                     return res.status(500).json({
@@ -126,5 +123,141 @@ module.exports = {
             }
             return res.status(204).json();
         });
+    },
+
+    getErrorMessage: function (err) {
+        // Define the error message variable
+        var message = '';
+
+        // If an internal MongoDB error occurs get the error message
+        if (err.code) {
+            switch (err.code) {
+                // If a unique index error occurs set the message error
+                case 11000:
+                case 11001:
+                    message = 'Student already exists';
+                    break;
+                // If a general error occurs set the message error
+                default:
+                    message = 'Something went wrong';
+            }
+        } else {
+            // Grab the first error message from a list of possible errors
+            for (const errName in err.errors) {
+                if (err.errors[errName].message) message = err.errors[errName].message;
+            }
+        }
+
+        // Return the message error
+        return message;
+    },
+
+    signin: function (req, res, next) {
+        passport.authenticate('local', (err, user, info) => {
+            if (err || !user) {
+                res.status(400).send(info);
+            } else {
+                // Remove sensitive data before login
+                user.password = undefined;
+                user.salt = undefined;
+
+                // Use the Passport 'login' method to login
+                req.login(user, (err) => {
+                    if (err) {
+                        res.status(400).send(err);
+                    } else {
+                        res.json(user);
+                    }
+                });
+            }
+        })(req, res, next);
+    },
+
+    signup: function (req, res) {
+        console.log(req.body);
+        const user = new Student(req.body);
+        user.provider = 'local';
+
+        // Try saving the User
+        user.save((err) => {
+            if (err) {
+                console.log(err);
+                return res.status(400).send({
+                    message: getErrorMessage(err)
+                });
+            } else {
+                // Remove sensitive data before login
+                user.password = undefined;
+                user.salt = undefined;
+
+                // Login the user
+                req.login(user, function (err) {
+                    if (err) {
+                        res.status(400).send(err);
+                    } else {
+                        res.json(user);
+                    }
+                });
+            }
+        });
+    }, 
+
+    saveOAuthUserProfile: function (req, profile, done) {
+        // Try finding a user document that was registered using the current OAuth provider
+        Student.findOne({
+            provider: profile.provider,
+            providerId: profile.providerId
+        }, (err, user) => {
+            // If an error occurs continue to the next middleware
+            if (err) {
+                return done(err);
+            } else {
+                // If a user could not be found, create a new user, otherwise, continue to the next middleware
+                if (!user) {
+
+                    user = new Student(profile);
+                    user.save(function (err) {
+                        return done(err, user);
+                    });
+
+
+                    //// Find a unique available username
+                    //User.findUniqueUsername(possibleUsername, null, (availableUsername) => {
+                    //    // Set the available user name 
+                    //    profile.username = availableUsername;
+
+                    //    // Create the user
+                    //    user = new User(profile);
+
+                    //    // Try saving the new user document
+                    //    user.save(function (err) {
+                    //        // Continue to the next middleware
+                    //        return done(err, user);
+                    //    });
+                    //});
+                } else {
+                    // Continue to the next middleware
+                    return done(err, user);
+                }
+            }
+        });
+    }, 
+
+    signout: function (req, res) {
+        // Use the Passport 'logout' method to logout
+        req.logout();
+
+        // Redirect the user back to the main application page
+        res.redirect('/');
+    },
+
+    requiresLogin: function (req, res, next) {
+        if (!req.isAuthenticated()) {
+            return res.status(401).send({
+                message: 'Student is not logged in'
+            });
+        }
+        next();
     }
+
 };

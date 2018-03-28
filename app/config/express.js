@@ -1,13 +1,14 @@
 ﻿// Load the module dependencies
 const config = require('./config');
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const compress = require('compression');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const session = require('express-session');
+const flash = require('connect-flash');
 const passport = require('passport');
-const path = require('path');
 
 // Define the Express configuration method
 module.exports = function () {
@@ -25,27 +26,33 @@ module.exports = function () {
     app.use(bodyParser.urlencoded({
         extended: true
     }));
-
     app.use(bodyParser.json());
     app.use(methodOverride());
 
     // Configure the 'session' middleware
     app.use(session({
-        //a session is uninitialized when it is new but not modified
-        //force a session that is "uninitialized" to be saved to the store
         saveUninitialized: true,
-        //forces the session to be saved back to the session store
-        //even if the session was never modified during the request
         resave: true,
-        secret: config.sessionSecret // secret used to sign the session ID cookie
+        secret: config.sessionSecret
     }));
 
-    // Set passport variables
-    app.use(passport.initialize()); // boostraping passport module
-    app.use(passport.session()); // keep track of user`s session
-   
-   // Angular DIST output folder
-    app.use(express.static(path.join(__dirname, '../../', 'dist')));
+    // Set the application view engine and 'views' folder
+    app.set('views', './app/views');
+    app.set('view engine', 'ejs');
+
+    // Configure the flash messages middleware
+    app.use(flash());
+
+    // Configure the Passport middleware
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    // Configure static file serving
+    app.use('/', express.static(path.resolve('./public')));
+    app.use('/lib', express.static(path.resolve('./node_modules')));
+
+    // Load the routing files	    
+    require('../routes/index.server.routes.js')(app);
 
     // Load the routing files
     var studentRouter = require('../routes/student.server.routes');
@@ -54,7 +61,9 @@ module.exports = function () {
     var courseRouter = require('../routes/course.server.routes');
     app.use('/api/course', courseRouter);
 
-    require('../routes/ng.server.routes.js')(app);
+    var authRouter = require('../routes/auth.server.routes');
+    app.use('/api/auth', authRouter);
+
     // Return the Express application instance
     return app;
 };

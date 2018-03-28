@@ -1,4 +1,4 @@
-var courseModel = require('../models/course.server.model');
+﻿var courseModel = require('../models/course.server.model');
 
 /**
  * courseController.js
@@ -27,7 +27,7 @@ module.exports = {
      */
     show: function (req, res) {
         var id = req.params.id;
-        courseModel.findOne({_id: id}, function (err, course) {
+        courseModel.findOne({ _id: id }, function (err, course) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting course.',
@@ -48,10 +48,10 @@ module.exports = {
      */
     create: function (req, res) {
         var course = new courseModel({
-			courseCode : req.body.courseCode,
-			courseName : req.body.courseName,
-			section : req.body.section,
-			semester : req.body.semester
+            courseCode: req.body.courseCode,
+            courseName: req.body.courseName,
+            section: req.body.section,
+            semester: req.body.semester
 
         });
 
@@ -73,7 +73,7 @@ module.exports = {
      */
     update: function (req, res) {
         var id = req.params.id;
-        courseModel.findOne({_id: id}, function (err, course) {
+        courseModel.findOne({ _id: id }, function (err, course) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting course',
@@ -87,10 +87,10 @@ module.exports = {
             }
 
             course.courseCode = req.body.courseCode ? req.body.courseCode : course.courseCode;
-			course.courseName = req.body.courseName ? req.body.courseName : course.courseName;
-			course.section = req.body.section ? req.body.section : course.section;
-			course.semester = req.body.semester ? req.body.semester : course.semester;
-			
+            course.courseName = req.body.courseName ? req.body.courseName : course.courseName;
+            course.section = req.body.section ? req.body.section : course.section;
+            course.semester = req.body.semester ? req.body.semester : course.semester;
+
             course.save(function (err, course) {
                 if (err) {
                     return res.status(500).json({

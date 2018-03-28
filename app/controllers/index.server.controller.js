@@ -1,12 +1,15 @@
-exports.render = function(req, res){
-    res.render('index', {
-        title: 'Sample Test'
-    });
-}
+﻿// Create a new 'render' controller method
+exports.render = function (req, res) {
+    // Set the safe user object 
+    const user = (!req.user) ? null : {
+        _id: req.user.id,
+        firstName: req.student.firstName,
+        lastName: req.student.lastName
+    };
 
-exports.renderAdd = function(req, res){
-    res.render('add_task', {
-        title:'Add New Task', 
-        task:{}
+    // Use the 'response' object to render the 'index' view with a 'title' and 'user' properties
+    res.render('index', {
+        title: 'Hello World',
+        user: JSON.stringify(user)
     });
-}
+};
