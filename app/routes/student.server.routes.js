@@ -13,6 +13,13 @@ router.get('/', studentController.list);
 router.get('/:id', studentController.show);
 
 /*
+ * GET
+ */
+router.get('/:id/courses', studentController.listCoursesByStudent);
+
+
+
+/*
  * POST
  */
 router.post('/', studentController.create);

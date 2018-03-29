@@ -1,5 +1,5 @@
 ﻿// Load the module dependencies
-const Student = require('mongoose').model('Student');
+const studentModel = require('mongoose').model('Student');
 const passport = require('passport');
 
 module.exports = {
@@ -95,6 +95,7 @@ module.exports = {
             student.phoneNumber = req.body.phoneNumber ? req.body.phoneNumber : student.phoneNumber;
             student.email = req.body.email ? req.body.email : student.email;
             student.semester = req.body.semester ? req.body.semester : student.semester;
+            student.courses = req.body.courses ? req.body.courses : student.courses;            
 
             student.save(function (err, student) {
                 if (err) {
@@ -123,6 +124,25 @@ module.exports = {
             }
             return res.status(204).json();
         });
+    },
+
+    listCoursesByStudent : function(req, res){
+        var id = req.params.id;       
+        studentModel.find({ _id: id }, function (err, student) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when getting student',
+                    error: err
+                });
+            }
+            if (!student) {
+                return res.status(404).json({
+                    message: 'No such student'
+                });
+            }
+            return student.courses;
+        });
+
     },
 
     getErrorMessage: function (err) {

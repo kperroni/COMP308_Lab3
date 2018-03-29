@@ -37,10 +37,10 @@ var studentSchema = new Schema({
         match: [/.+\@.+\..+/, "Please fill a valid e-mail address"]
     },
     'semester': Number,
-    'course': {
+    'courses': [{
         type: Schema.Types.ObjectId,
         ref: 'Course'
-    }
+    }]
 });
 
 studentSchema.virtual('fullName').get(function () {
