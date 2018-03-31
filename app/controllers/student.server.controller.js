@@ -267,7 +267,7 @@ module.exports = {
         req.logout();
 
         // Redirect the user back to the main application page
-        res.redirect('/');
+        res.json({message:"Logout successfull"});
     },
 
     requiresLogin: function (req, res, next) {

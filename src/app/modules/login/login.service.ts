@@ -9,4 +9,8 @@ export class LoginService {
 logIn(body){
   return this.http.post("api/auth/signin" , body);
 }
+
+logOut(){
+  return this.http.get('api/auth/signout');
+}
 }

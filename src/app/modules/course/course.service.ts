@@ -9,9 +9,4 @@ export class CourseService {
 getAllCourses(){
   return this.http.get('/api/course');
 }
-
-getACourse(body){
-  return this.http.get('/api/course/'+body);
-}
-
 }
