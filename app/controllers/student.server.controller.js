@@ -64,7 +64,7 @@ module.exports = {
                     error: err
                 });
             }
-            return res.status(201).json(student);
+            return res.status(201).json(student._id);
         });
     },
 
@@ -85,8 +85,8 @@ module.exports = {
                     message: 'No such student'
                 });
             }
-            student.studentNumber = req.body.studentNumber ? req.body.studentNumber : student.studentNumber;
-            student.password = req.body.password ? req.body.password : student.password;
+            student.studentNumber = req.body.studentNumber ? req.body.studentNumber : student.studentNumber;   
+            student.password = req.body.password ? req.body.password : student.password;        
             student.firstName = req.body.firstName ? req.body.firstName : student.firstName;
             student.lastName = req.body.lastName ? req.body.lastName : student.lastName;
             student.address = req.body.address ? req.body.address : student.address;
@@ -104,7 +104,7 @@ module.exports = {
                     });
                 }
 
-                return res.json(student);
+                return res.json(student._id);
             });
         });
     },
@@ -171,8 +171,8 @@ module.exports = {
         return message;
     },
 
-    signin: function (req, res, next) {
-        passport.authenticate('local', (err, user, info) => {
+    signin: function (req, res, next) {        
+        passport.authenticate('local', (err, user, info) => {           
             if (err || !user) {
                 res.status(400).send(info);
             } else {
