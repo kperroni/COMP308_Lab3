@@ -23,7 +23,7 @@ var studentSchema = new Schema({
     },
     'provider': {
         type: String,
-        required: 'Provider is required'
+        // required: 'Provider is required'
     },
     'providerId': String,
     'providerData': {},
@@ -52,6 +52,10 @@ studentSchema.virtual('fullName').get(function () {
 })
 
 studentSchema.pre('save', function (next) {
+    var student = this;
+
+    if (!student.isModified('password')) return next();
+
     if (this.password) {
         this.salt = new Buffer(crypto.randomBytes(16).toString('base64'), 'base64');
         this.password = this.hashPassword(this.password);
