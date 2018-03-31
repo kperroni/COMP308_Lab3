@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../student.service';
-import { CourseService } from '../../course/course.service';
 
 @Component({
   selector: 'app-list-student-courses',
@@ -9,30 +8,15 @@ import { CourseService } from '../../course/course.service';
 })
 export class ListStudentCoursesComponent implements OnInit {
 
-  courseCodes: any[] = [];
-  allCourses: any[] = [];
-  coursesRegistered: any[] = [];
-  constructor(private Student: StudentService, private Course: CourseService) { }
+coursesRegistered: any[] = [];
+
+  constructor(private Student: StudentService) { }
 
   ngOnInit() {
     this.Student.getCourseRegistered()
       .subscribe(
-        (data: any[]) => {
-          this.courseCodes = data;
-          this.Course.getAllCourses()
-            .subscribe(
-              (data: any[]) => {
-                this.allCourses = data;
-                this.allCourses.forEach(course => {
-                  this.courseCodes.forEach(studentCourse => {
-                    if(course._id === studentCourse){
-                      this.coursesRegistered.push(course);
-                    }
-                  });
-                });
-              }
-            );
-        }
+        (data: any[]) => 
+          this.coursesRegistered = data       
       );
 
   }

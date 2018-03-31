@@ -9,34 +9,34 @@ import { StudentService } from '../student.service';
 })
 export class AddCourseComponent implements OnInit {
 
-allCourses: any[];
-uniqueCourses: any[];
-sections: any[] = [];
-dropdownLegendCourse: String = "Select Course";
-dropdownLegendSection: String = "Select Section";
-show: boolean = false;
-selectedCourse: String = "";
-selectedSection: String = "";
+  allCourses: any[];
+  uniqueCourses: any[];
+  sections: any[] = [];
+  dropdownLegendCourse: String = "Select Course";
+  dropdownLegendSection: String = "Select Section";
+  show: boolean = false;
+  selectedCourse: String = "";
+  selectedSection: String = "";
 
 
   constructor(private Course: CourseService, private Student: StudentService) { }
 
   ngOnInit() {
     this.Course.getAllCourses()
-    .subscribe(
-      (data: any[]) => {
-        this.allCourses = data;
-        this.uniqueCourses = this.allCourses.filter((obj, pos, arr) => {
-          return arr.map(mapObj => mapObj['courseCode']).indexOf(obj['courseCode']) === pos;
-      });
-      }    
-    );
+      .subscribe(
+        (data: any[]) => {
+          this.allCourses = data;
+          this.uniqueCourses = this.allCourses.filter((obj, pos, arr) => {
+            return arr.map(mapObj => mapObj['courseCode']).indexOf(obj['courseCode']) === pos;
+          });
+        }
+      );
   }
 
-  onSelectCourse(courseCode){
+  onSelectCourse(courseCode) {
     this.sections = [];
     this.allCourses.forEach(course => {
-      if(course.courseCode === courseCode){
+      if (course.courseCode === courseCode) {
         this.dropdownLegendCourse = course.courseCode + ' - ' + course.courseName;
         this.sections.push(course.section);
         this.selectedCourse = course.courseCode;
@@ -47,19 +47,25 @@ selectedSection: String = "";
     this.show = true;
   }
 
-  onSelectedSection(section){
+  onSelectedSection(section) {
     this.selectedSection = this.dropdownLegendSection = section;
   }
 
-  onRegister(){
+  onRegister() {
     this.allCourses.forEach(course => {
-      if(course.courseCode == this.selectedCourse && course.section == this.selectedSection){
-        this.Student.addCourseToStudent({courses: course})
-        .subscribe(
-          (data: any) => console.log(data),
-          (error: any) => console.log(error)
-        );
-      } 
+      if (course.courseCode == this.selectedCourse && course.section == this.selectedSection) {
+        this.Student.getAStudent()
+          .subscribe(
+            (data: any) => {
+              data.courses.push(course._id);
+              this.Student.updateStudent({courses: data.courses})
+                .subscribe(
+                  (data: any) => console.log(data),
+                  (error: any) => console.log(error)
+                );
+            }
+          );
+      }
     });
   }
 }

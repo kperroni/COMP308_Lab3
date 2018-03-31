@@ -8,7 +8,7 @@ module.exports = {
      * studentController.list()
      */
     list: function (req, res) {
-        studentModel.find(function (err, students) {
+        studentModel.find().populate('courses').exec(function (err, students) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting student.',
@@ -94,8 +94,7 @@ module.exports = {
             student.phoneNumber = req.body.phoneNumber ? req.body.phoneNumber : student.phoneNumber;
             student.email = req.body.email ? req.body.email : student.email;
             student.semester = req.body.semester ? req.body.semester : student.semester;
-            student.courses = student.courses.push(req.body.courses);
-            console.log(student.courses);
+            student.courses = req.body.courses ? req.body.courses : student.courses;
 
             student.save(function (err, student) {
                 if (err) {
@@ -128,7 +127,7 @@ module.exports = {
 
     listCoursesByStudent : function(req, res){
         var id = req.params.id;       
-        studentModel.find({ _id: id }, function (err, student) {
+        studentModel.find({ _id: id }).populate('courses').exec( function (err, student) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting student',

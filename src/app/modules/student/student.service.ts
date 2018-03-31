@@ -10,11 +10,15 @@ getAllStudents(){
   return this.http.get('/api/student');
 }
 
-addCourseToStudent(body){
+updateStudent(body){
   return this.http.put('/api/student/'+localStorage.getItem('studentId'), body);
 }
 
 getCourseRegistered(){
   return this.http.get('/api/student/'+localStorage.getItem('studentId')+'/courses');
+}
+
+getAStudent(){
+  return this.http.get('/api/student/'+localStorage.getItem('studentId'));
 }
 }

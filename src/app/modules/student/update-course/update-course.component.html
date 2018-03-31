@@ -1,57 +1,54 @@
 <div class="container py-5">
-  <div class="row">
-      <div class="col-md-12">
-          <h2 class="text-center mb-5">Update Course for Students</h2>
-          <div class="row">
-              <div class="col-md-6 mx-auto">
-                  <div class="card border-secondary">
-                      <div class="card-header">
-                          <h3 class="mb-0 my-2">Update a Course</h3>
-                      </div>
-                      <div class="card-body">
-                          <form class="form" role="form" autocomplete="off">
-                              <div class="form-group">
-                                  <label for="courseCode">Course Code</label>
-                                  <div class="dropdown">
-                                    <button class="btn btn-light dropdown-toggle" type="button" id="section" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" required="">
-                                      Select the Course
-                                    </button>
-                                    <!-- Here load courses of student -->
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                      <a class="dropdown-item" href="#">1</a>
-                                      <a class="dropdown-item" href="#">2</a>
-                                      <a class="dropdown-item" href="#">3</a>
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center mb-5">Update Course for Students</h2>
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="card border-secondary">
+                        <div class="card-header">
+                            <h3 class="mb-0 my-2">Update a Course</h3>
+                        </div>
+                        <div class="card-body">
+                            <form class="form" role="form" autocomplete="off">
+                                <div class="form-group">
+                                    <label>Select From Your Registered Courses</label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                            required="">
+                                            {{ dropdownLegendCourse }}
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a *ngFor="let course of registeredCourses" class="dropdown-item" (click)="onSelectCourse(course._id, course.courseCode, course.courseName)">{{ course.courseCode }} - {{ course.courseName }}</a>
+                                        </div>
                                     </div>
-                              </div>
-                              </div>
-                              <!-- Hide this div, and show it when the the course code is entered -->
-                              <div class="form-group">
-                                  <label for="section">Section</label>
-                                  <div class="dropdown">
-                                    <button class="btn btn-light dropdown-toggle" type="button" id="section" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" required="">
-                                      Select the Section
-                                    </button>
-                                    <!-- Here load courses of student -->
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                      <a class="dropdown-item" href="#">1</a>
-                                      <a class="dropdown-item" href="#">2</a>
-                                      <a class="dropdown-item" href="#">3</a>
+                                </div>
+                                <!-- Hide this div, and show it when the the course code is entered -->
+                                <div *ngIf="show" class="form-group">
+                                    <label for="section">Select a Section</label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light dropdown-toggle" type="button" id="section" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                            required="">
+                                            {{ dropdownLegendSection }}
+                                        </button>
+                                        <!-- Here load courses of student -->
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a *ngFor="let section of sections" class="dropdown-item" (click)="onSelectedSection(section)">{{ section }}</a>
+                                        </div>
                                     </div>
-                              </div>
-                              </div>
-                              <div class="form-group">
-                                  <button type="submit" class="btn btn-success btn-lg float-left">Drop Course</button>
-                              </div>
-                          </form>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!--/row-->
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-success btn-lg float-left" (click)="onUpdate()">Update Course</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/row-->
 
-      </div>
-      <!--/col-->
-  </div>
-  <!--/row-->
+        </div>
+        <!--/col-->
+    </div>
+    <!--/row-->
 </div>
 <!--/container-->
