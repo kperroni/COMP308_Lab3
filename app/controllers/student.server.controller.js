@@ -85,7 +85,6 @@ module.exports = {
                     message: 'No such student'
                 });
             }
-
             student.studentNumber = req.body.studentNumber ? req.body.studentNumber : student.studentNumber;
             student.password = req.body.password ? req.body.password : student.password;
             student.firstName = req.body.firstName ? req.body.firstName : student.firstName;
@@ -195,7 +194,7 @@ module.exports = {
 
     signup: function (req, res) {
         console.log(req.body);
-        const user = new Student(req.body);
+        const user = new studentModel(req.body);
         user.provider = 'local';
 
         // Try saving the User

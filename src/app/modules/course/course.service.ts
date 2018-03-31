@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 
 @Injectable()
-export class LoginService {
+export class CourseService {
 
   constructor(private http: HttpClient) { }
 
-logIn(body){
-  return this.http.post("api/auth/signin" , body);
+getAllCourses(){
+  return this.http.get('/api/course');
 }
+
 }

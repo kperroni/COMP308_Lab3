@@ -15,15 +15,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>123456</td>
-        <td>John</td>
-        <td>Doe</td>
-        <td>123 Main Street</td>
-        <td>Toronto</td>
-        <td>123 - 123- 1234</td>
-        <td>jdoe@e.com</td>
-        <td>5</td>
+      <tr *ngFor="let student of students">
+        <td>{{ student.studentNumber }}</td>
+        <td>{{ student.firstName }}</td>
+        <td>{{ student.lastName }}</td>
+        <td>{{ student.address }}</td>
+        <td>{{ student.city }}</td>
+        <td>{{ student.phoneNumber }}</td>
+        <td>{{ student.email }}</td>
+        <td>{{ student.semester }}</td>
       </tr>
     </tbody>
   </table>

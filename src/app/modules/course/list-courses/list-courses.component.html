@@ -11,24 +11,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>COMP308</td>
-        <td>Emerging Technologies</td>
-        <td>001</td>
-        <td>5</td>
+      <tr *ngFor="let course of courses">
+        <td>{{ course.courseCode }}</td>
+        <td>{{ course.courseName }}</td>
+        <td>{{ course.section }}</td>
+        <td>{{ course.semester }}</td>
       </tr>
       <tr>
-        <td>COMP303</td>
-        <td>Java EE Programming</td>
-        <td>002</td>
-        <td>5</td>
-      </tr>
-      <tr>
-        <td>CNET329</td>
-        <td>Business and ICT</td>
-        <td>001</td>
-        <td>4</td>
-      </tr>
     </tbody>
   </table>
 </div>

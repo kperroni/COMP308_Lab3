@@ -1,62 +1,50 @@
 <div class="container py-5">
-  <div class="row">
-      <div class="col-md-12">
-          <h2 class="text-center mb-5">Course Addition for Students</h2>
-          <div class="row">
-              <div class="col-md-6 mx-auto">
-                  <div class="card border-secondary">
-                      <div class="card-header">
-                          <h3 class="mb-0 my-2">Add a Course</h3>
-                      </div>
-                      <div class="card-body">
-                          <form class="form" role="form" autocomplete="off">
-                              <div class="form-group">
-                                  <label for="courseCode">Course Code</label>
-                                  <input type="text" class="form-control" id="courseCode" placeholder="Enter Course Code">
-                              </div>
-                              <div class="form-group">
-                                  <label for="courseName">Course Name</label>
-                                  <input type="text" class="form-control" id="courseName" placeholder="Enter Course Name" required="">
-                              </div>
-                              <div class="form-group">
-                                  <label for="section">Section</label>
-                                  <div class="dropdown">
-                                    <button class="btn btn-light dropdown-toggle" type="button" id="section" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" required="">
-                                      Select the Section
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                      <a class="dropdown-item" href="#">1</a>
-                                      <a class="dropdown-item" href="#">2</a>
-                                      <a class="dropdown-item" href="#">3</a>
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center mb-5">Course Addition for Students</h2>
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="card border-secondary">
+                        <div class="card-header">
+                            <h3 class="mb-0 my-2">Add a Course</h3>
+                        </div>
+                        <div class="card-body">
+                                <div class="form-group">
+                                <label>Select from the Available Courses</label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                            required="">
+                                            {{ dropdownLegendCourse }}
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a *ngFor="let course of uniqueCourses" class="dropdown-item" (click)="onSelectCourse(course.courseCode)">{{ course.courseCode }} - {{ course.courseName }}</a>
+                                        </div>
                                     </div>
-                              </div>
-                              </div>
-                              <div class="form-group">
-                                  <label for="Semester">Semester</label>
-                                  <div class="dropdown">
-                                    <button class="btn btn-light dropdown-toggle" type="button" id="semester" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" required="">
-                                      Select the Semester
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                      <a class="dropdown-item" href="#">1</a>
-                                      <a class="dropdown-item" href="#">2</a>
-                                      <a class="dropdown-item" href="#">3</a>
+                                </div>
+                                <div *ngIf="show" class="form-group">
+                                <label>Select a Section</label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-light dropdown-toggle" type="button" id="section" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                            required="">
+                                            {{ dropdownLegendSection }}
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a *ngFor="let section of sections" class="dropdown-item" (click)="onSelectedSection(section)">{{ section }}</a>
+                                        </div>
                                     </div>
-                              </div>
+                                </div>
+                                    <div class="form-group">
+                                        <button type="button" (click)="onRegister()" class="btn btn-success btn-lg float-left">Register</button>
+                                    </div>
                             </div>
-                              <div class="form-group">
-                                  <button type="submit" class="btn btn-success btn-lg float-left">Register</button>
-                              </div>
-                          </form>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <!--/row-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/row-->
 
-      </div>
-      <!--/col-->
-  </div>
-  <!--/row-->
-</div>
-<!--/container-->
+        </div>
+        <!--/col-->
+    </div>
+    <!--/row-->
+    <!--/container-->

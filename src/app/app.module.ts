@@ -15,6 +15,8 @@ import { ListStudentCoursesComponent } from './modules/student/list-student-cour
 import { ListStudentsPerCourseComponent } from './modules/student/list-students-per-course/list-students-per-course.component';
 import { HomeComponent } from './modules/home/home.component';
 import { LoginService } from './modules/login/login.service';
+import { CourseService } from './modules/course/course.service';
+import { StudentService } from './modules/student/student.service';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -25,6 +27,7 @@ const routes: Routes = [
   {path: 'updateCourse', component: UpdateCourseComponent},
   {path: 'listStudentsPerCourse', component: ListStudentsPerCourseComponent}, 
   {path: 'listStudents', component: ListStudentsComponent},
+  {path: 'home', component: HomeComponent},
   {path: '**', redirectTo: '/login', pathMatch: "full"},
   {path: '', redirectTo: '/login', pathMatch: "full"}
 ];
@@ -45,7 +48,7 @@ const routes: Routes = [
   imports: [
     BrowserModule, RouterModule.forRoot(routes), FormsModule, HttpClientModule
   ],
-  providers: [LoginService],
+  providers: [LoginService, CourseService, StudentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
