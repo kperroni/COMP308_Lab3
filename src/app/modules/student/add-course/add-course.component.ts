@@ -54,7 +54,7 @@ selectedSection: String = "";
   onRegister(){
     this.allCourses.forEach(course => {
       if(course.courseCode == this.selectedCourse && course.section == this.selectedSection){
-        this.Student.addCourseToStudent({courses: course._id})
+        this.Student.addCourseToStudent({courses: course})
         .subscribe(
           (data: any) => console.log(data),
           (error: any) => console.log(error)

@@ -94,7 +94,8 @@ module.exports = {
             student.phoneNumber = req.body.phoneNumber ? req.body.phoneNumber : student.phoneNumber;
             student.email = req.body.email ? req.body.email : student.email;
             student.semester = req.body.semester ? req.body.semester : student.semester;
-            student.courses = req.body.courses ? req.body.courses : student.courses;            
+            student.courses = student.courses.push(req.body.courses);
+            console.log(student.courses);
 
             student.save(function (err, student) {
                 if (err) {
@@ -139,7 +140,7 @@ module.exports = {
                     message: 'No such student'
                 });
             }
-            return student.courses;
+            res.json(student[0].courses);
         });
 
     },
