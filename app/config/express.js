@@ -9,6 +9,8 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
+const cors = require('cors');
+
 
 // Define the Express configuration method
 module.exports = function () {
@@ -28,6 +30,7 @@ module.exports = function () {
     }));
     app.use(bodyParser.json());
     app.use(methodOverride());
+    app.use(cors());
 
     // Configure the 'session' middleware
     app.use(session({

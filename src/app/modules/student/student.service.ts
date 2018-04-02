@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable()
 export class StudentService {
@@ -7,18 +8,18 @@ export class StudentService {
   constructor(private http: HttpClient) { }
 
 getAllStudents(){
-  return this.http.get('/api/student');
+  return this.http.get(environment.apiUrl + '/api/student');
 }
 
 updateStudent(body){
-  return this.http.put('/api/student/'+localStorage.getItem('studentId'), body);
+  return this.http.put(environment.apiUrl + '/api/student/'+localStorage.getItem('studentId'), body);
 }
 
 getCourseRegistered(){
-  return this.http.get('/api/student/'+localStorage.getItem('studentId')+'/courses');
+  return this.http.get(environment.apiUrl + '/api/student/'+localStorage.getItem('studentId')+'/courses');
 }
 
 getAStudent(){
-  return this.http.get('/api/student/'+localStorage.getItem('studentId'));
+  return this.http.get(environment.apiUrl + '/api/student/'+localStorage.getItem('studentId'));
 }
 }
